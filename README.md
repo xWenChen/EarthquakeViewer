@@ -7,7 +7,6 @@
 
 4、程序用到了异步加载（AsyncLoad），网络编程（URLConnection），偏好设置（SharedPreference），基础布局知识（TextView，Button）等等知识。
 
-5、因为自己的手机没有root，故无法使用Google Service，进而无法使用Google Map，所以地理位置的设置功能没有添加完整。如果条件允许，可以自行添加地理位置
-功能。
+5、因为自己的手机没有root，故无法使用Google Service，进而无法使用Google Map，所以地理位置的设置功能没有添加完整。如果条件允许，可以自行添加地理位置功能。
  
 ![image](https://github.com/xWenChen/EarthquakeViewer/tree/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher)
