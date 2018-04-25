@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="orange_darker">#F57C00</color>
+    <color name="orange_red">#E65100</color>
+    <color name="radio_button_circle_color">#333</color>
+
+    <color name="lightest_grey">#FAFAFA</color>
+    <!-- 颜色表来自 Google Material Design -->
+
+    <!-- 颜色划分依据：绿色表示安全，然后是预警色：蓝，黄，橙，红 -->
+    <!-- 0 到 3 等级的地震颜色：弱地震 -->
+    <color name="magnitude1">#00C853</color>
+
+    <!-- 3 到 4.5 等级的地震颜色：有感地震 -->
+    <color name="magnitude2">#2962FF</color>
+
+    <!-- 4.5 到 6 等级的地震颜色：中强度地震 -->
+    <color name="magnitude3">#FFD600</color>
+
+    <!-- 6 到 8 等级的地震颜色：强地震 -->
+    <color name="magnitude4">#FF6D00</color>
+
+    <!-- 8 等级及以上的地震颜色：巨大地震 -->
+    <color name="magnitude5">#D50000</color>
+
+    <!-- 地震详细信息的文本颜色 -->
+    <color name="textColorEarthquakeDetails">#B4BAC0</color>
+
+    <!-- 地震位置的文本颜色 -->
+    <color name="textColorEarthquakeLocation">#2B3D4D</color>
+</resources>

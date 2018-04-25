@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">地震显示器</string>
+    <string name="near_the">Near the</string>
+    <string name="no_earthquakes">No earthquake found</string>
+    <string name="setting">设置</string>
+    <string name="sort_time">按时间排序</string>
+    <string name="sort_magnitude">按震级排序</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
