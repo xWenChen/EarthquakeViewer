@@ -9,4 +9,5 @@
 
 5、因为自己的手机没有root，故无法使用Google Service，进而无法使用Google Map，所以地理位置的设置功能没有添加完整。如果条件允许，可以自行添加地理位置功能。
  
-![image](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
+
+![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
