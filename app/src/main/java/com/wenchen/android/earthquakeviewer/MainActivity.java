@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity
 		    return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		case R.id.menu_see_as_map:
+			seeAsMap(); //如果在中国境内，地震地点可以使用地图的形式查看，地图使用的是百度地图API
+			return true;
 		}
 	}
 
@@ -151,10 +154,10 @@ public class MainActivity extends AppCompatActivity
 		builder.appendQueryParameter("endtime", settings.getEndDate());
 		if(settings.getLatitude() != 91 && settings.getLongitude() != 181)
 		{
-			//半径为 100km
+			//半径为 50km
 			builder.appendQueryParameter("latitude", String.valueOf(settings.getLatitude()));
 			builder.appendQueryParameter("longitude", String.valueOf(settings.getLongitude()));
-			builder.appendQueryParameter("maxradiuskm", "100");
+			builder.appendQueryParameter("maxradiuskm", "50");
 		}
 
 		builder.appendQueryParameter("minmagnitude", settings.getMinMagnitude());
@@ -199,5 +202,10 @@ public class MainActivity extends AppCompatActivity
 	public static Uri getUri()
 	{
 		return uri;
+	}
+
+	//当用户点击地图菜单项时，以地图的形式呈现
+	private void seeAsMap()
+	{
 	}
 }

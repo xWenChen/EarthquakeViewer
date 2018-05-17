@@ -1,10 +1,16 @@
 package com.wenchen.android.earthquakeviewer;
 
 //设置参数的视图页面
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +30,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -64,14 +72,16 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 	//存储设置
 	SettingPreference settings;
 
+	//检查相应权限是否授权成全：使用百度地图功能必须的危险权限(运行时授予)
+	ArrayList<String> permissions = new ArrayList<>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 
-		//返回上级
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		initPermissions();
 
 		//绑定 Spinner
 		sortStyleSpinner = (Spinner)findViewById(R.id.sort_style_spinner);
@@ -105,6 +115,76 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 		//初始化
 		init(savedInstanceState);
+	}
+
+	//初始化动态权限信息
+	private void initPermissions()
+	{
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) //API >= 23时检查
+		{
+			//检查权限
+			if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+				permissions.add(Manifest.permission.READ_PHONE_STATE);
+			if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+				permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+			if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+				permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+			if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+				permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+			if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+				permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+			//权限申请列表不为空，则要申请
+			if(!permissions.isEmpty() || permissions != null)
+			{
+				if(permissions.contains(Manifest.permission.READ_PHONE_STATE))
+				{
+					//显示授权提示框
+					if(shouldShowRequestPermissionRationale(Manifest.permission
+							.READ_PHONE_STATE))
+					{
+
+					}
+					else
+					{
+						ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
+								.READ_PHONE_STATE}, 0);
+					}
+
+				}
+				if(permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION) ||
+						permissions.contains(Manifest.permission.ACCESS_COARSE_LOCATION))
+				{
+					//显示授权提示框
+					if(shouldShowRequestPermissionRationale(Manifest.permission
+							.ACCESS_FINE_LOCATION))
+					{
+
+					}
+					else
+					{
+						ActivityCompat.requestPermissions(this, new String[]{Manifest
+								.permission.ACCESS_FINE_LOCATION, Manifest.permission
+								.ACCESS_COARSE_LOCATION}, 1);
+					}
+				}
+				if(permissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+						permissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE))
+				{
+					if(shouldShowRequestPermissionRationale(Manifest.permission
+							.WRITE_EXTERNAL_STORAGE))
+					{
+
+					}
+					else
+					{
+						ActivityCompat.requestPermissions(this, new String[]{Manifest
+								.permission.READ_EXTERNAL_STORAGE, Manifest.permission
+								.WRITE_EXTERNAL_STORAGE}, 2);
+					}
+				}
+			}
+		}
 	}
 
 	//初始化顺序建议不做更改，否则会出现莫名其妙的错误
@@ -432,8 +512,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 			break;
 		case R.id.place_button:
-			Intent placeIntent = new Intent(SettingActivity.this, MapsActivity.class);
-			startActivityForResult(placeIntent, 0);
+			if(permissions.isEmpty())
+			{
+				Intent placeIntent = new Intent(SettingActivity.this, BDMSettingActivity.class);
+				startActivityForResult(placeIntent, 0);
+			}
 
 			break;
 		case R.id.cancel_button:
@@ -471,15 +554,59 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 			settings.setPreferences();
 
-			//SettingActivity.this.finish();
+			SettingActivity.this.finish();
 
-			Toast.makeText(SettingActivity.this, "应用更改：更新设置成功", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(SettingActivity.this, "应用更改：更新设置成功", Toast.LENGTH_SHORT).show();
 
 			break;
 		case R.id.down_image:
 			break;
 		default:
 			break;
+		}
+	}
+
+	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[]
+			permissionsAry, @NonNull int[] grantResults)
+	{
+		//在权限申请回调函数中，去掉相应的需要申请的权限
+		if(permissions != null && permissions.isEmpty())
+		{
+			switch(requestCode)
+			{
+			case 0:
+				if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+				{
+					//如果包含此权限，就去除
+					if(permissions.contains(Manifest.permission.READ_PHONE_STATE))
+						permissions.remove(Manifest.permission.READ_PHONE_STATE);
+				}
+				break;
+			case 1:
+				if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+				{
+					if(permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION))
+						permissions.remove(Manifest.permission.ACCESS_FINE_LOCATION);
+					if(permissions.contains(Manifest.permission.ACCESS_COARSE_LOCATION))
+						permissions.remove(Manifest.permission.ACCESS_COARSE_LOCATION);
+				}
+				break;
+			case 2:
+				if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+				{
+					if(permissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE))
+						permissions.remove(Manifest.permission.READ_EXTERNAL_STORAGE);
+					if(permissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+						permissions.remove(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+				}
+				break;
+			}
+		}
+		//如果申请权限列表为空，说明全部需要的权限已经分配
+		if(permissions.isEmpty())
+		{
+			Intent placeIntent = new Intent(SettingActivity.this, BDMSettingActivity.class);
+			startActivityForResult(placeIntent, 0);
 		}
 	}
 
@@ -491,10 +618,17 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 		{
 			if(resultCode == RESULT_OK)
 			{
-				double[] place = data.getDoubleArrayExtra("position");
+				double latitude = data.getDoubleExtra("latitude", 91);
+				double longitude = data.getDoubleExtra("longitude", 181);
 
-				latitudeTextView.setText(String.valueOf(place[0]));
-				longitudeTextView.setText(String.valueOf(place[1]));
+				latitudeTextView.setText(String.valueOf(latitude));
+				longitudeTextView.setText(String.valueOf(longitude));
+
+				Toast.makeText(this, "地点设置成功", Toast.LENGTH_LONG).show();
+			}
+			else if(resultCode == RESULT_CANCELED)
+			{
+				Toast.makeText(this, "地点设置被取消", Toast.LENGTH_LONG).show();
 			}
 		}
 	}
