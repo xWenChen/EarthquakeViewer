@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wenchen.android.earthquakeviewer.BDMSettingActivity">
+
+    <!-- 百度地图的显示模块 -->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bdm_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+
+        <!-- BaiduMap的取消按钮，位于左下角 -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/bdm_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_cancel_64dp_green"
+            android:backgroundTint="@color/orange_red"
+            android:layout_margin="@dimen/list_item_horizontal_margin"
+            />
+
+        <!-- BaiduMap的确定按钮，位于右下角 -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/bdm_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_confirm_64dp_green"
+            android:backgroundTint="@color/orange_red"
+            android:layout_margin="@dimen/list_item_horizontal_margin"
+            />
+
+        <!-- BaiduMap的还原按钮，即用户不想选择任何一个点时，位于中底部 -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/bdm_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_reset_64dp_green"
+            android:backgroundTint="@color/orange_red"
+            android:layout_margin="@dimen/list_item_horizontal_margin"
+            />
+
+</RelativeLayout>
