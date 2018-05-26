@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 百度地图中点击按钮后弹出地震信息显示对话框的布局 -->
+    <!-- 显示地震地点 -->
+    <TextView
+        android:id="@+id/dlg_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/message_text_size"
+        android:textStyle="bold" />
+
+    <include layout="@layout/list_item" />
+
+    <!-- 第一种方案里废弃的布局
+    <ListView
+        android:id="@+id/message_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/list_item_vertical_margin"
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:dividerHeight="1dp"></ListView>
+    -->
+
+</LinearLayout>

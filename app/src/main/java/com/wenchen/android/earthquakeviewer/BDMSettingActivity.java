@@ -1,9 +1,14 @@
 package com.wenchen.android.earthquakeviewer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -15,21 +20,25 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 //位于设置界面的百度地图(BaiduMap), 包含一个地图两个按钮
 
 public class BDMSettingActivity extends AppCompatActivity
 {
+	private final int CUSTOM_OK_CODE = 2; //用于设置intent的返回结果
+
 	Intent intent; //和设置界面(SettingActivity)之间通信的Intent
 
 	MapView mapView;
 	BaiduMap baiduMap;
-	FloatingActionButton cancel, confirm;
+	FloatingActionButton cancel, confirm, reset;
 	public LocationClient locationClient = null; //使用定位服务需要用到的类
 	private MyLocationListener myListener = new MyLocationListener();
 	LocationClientOption clientOption;
@@ -42,30 +51,56 @@ public class BDMSettingActivity extends AppCompatActivity
 		SDKInitializer.initialize(getApplicationContext()); //必须放在setContent函数前面
 		setContentView(R.layout.activity_bdmsetting);
 
+		ExitApplication.getInstance().addActivity(this);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		intent = getIntent();
 
 		mapView = (MapView)findViewById(R.id.bdm_view);
 		confirm = (FloatingActionButton) findViewById(R.id.bdm_confirm);
 		cancel = (FloatingActionButton) findViewById(R.id.bdm_cancel);
+		reset = (FloatingActionButton)findViewById(R.id.bdm_reset);
 
 		//初始化地图设置
 		initBaiduMap();
+	}
 
-		//获取位置配置第一步，设置监听器
-		locationClient = new LocationClient(getApplicationContext());
-		locationClient.registerLocationListener(myListener); //绑定监听器
+	//处理菜单栏返回键的点击事件，此是方法二，不在清单文件中指定明确父类
+	@Override public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case android.R.id.home:
+			setResult(RESULT_CANCELED, intent); //设置取消结果
 
-		//第二步，初始化定位配置
-		initLocation();
+			BDMSettingActivity.this.finish(); //不设置坐标退出
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
-		//第三步：开启定位
-		locationClient.start();
-
-		initClickEvent();
-
-		mapView.showScaleControl(false); //不显示默认比例尺控件
-		//普通地图的缩放等级是4-21
-		mapView.showZoomControls(false); //不显示默认缩放控件
+	@Override public void onBackPressed()
+	{
+		new AlertDialog.Builder(this)
+				.setMessage("确定退出？")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener()
+				{
+					@Override public void onClick(DialogInterface dialog, int which)
+					{
+						ExitApplication.getInstance().exit(BDMSettingActivity.this);
+						moveTaskToBack(true); //true表示不管是否在根任务，直接退出程序
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener()
+				{
+					@Override public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss(); //隐藏掉对话框
+					}
+				}).create().show();
+		//super.onBackPressed();
 	}
 
 	//初始化按钮的点击事件
@@ -78,7 +113,22 @@ public class BDMSettingActivity extends AppCompatActivity
 				//将结果放入intent中，方便被回传结果函数(onActivityResult)捕捉
 				intent.putExtra("latitude", latitude);
 				intent.putExtra("longitude", longitude);
-				setResult(RESULT_OK); //设置正常结果
+
+				setResult(CUSTOM_OK_CODE, intent); //设置正常结果,自定以的正常结果
+
+				BDMSettingActivity.this.finish(); //退出
+			}
+		});
+
+		reset.setOnClickListener(new View.OnClickListener()
+		{
+			@Override public void onClick(View v)
+			{
+				//将结果放入intent中，方便被回传结果函数(onActivityResult)捕捉
+				intent.putExtra("latitude", 91);
+				intent.putExtra("longitude", 181);
+
+				setResult(CUSTOM_OK_CODE, intent); //设置正常结果
 
 				BDMSettingActivity.this.finish(); //退出
 			}
@@ -88,7 +138,7 @@ public class BDMSettingActivity extends AppCompatActivity
 		{
 			@Override public void onClick(View v)
 			{
-				setResult(RESULT_CANCELED); //设置取消结果
+				setResult(RESULT_CANCELED, intent); //设置取消结果
 
 				BDMSettingActivity.this.finish(); //不设置坐标退出
 			}
@@ -139,6 +189,41 @@ public class BDMSettingActivity extends AppCompatActivity
 		baiduMap.setTrafficEnabled(false); //不显示交通图
 		baiduMap.setBaiduHeatMapEnabled(false); //不显示百度热力图
 		baiduMap.setBuildingsEnabled(false); //不显示建筑物
+
+		UiSettings settings = baiduMap.getUiSettings();
+		settings.setOverlookingGesturesEnabled(false); //禁止3D俯视
+		settings.setRotateGesturesEnabled(false); //禁止地图旋转
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences
+				(getApplicationContext());
+		latitude = (double) preferences.getFloat("latitude", 91f);
+		longitude = (double) preferences.getFloat("longitude", 181f);
+
+		if(latitude != 91d && longitude != 181d)
+		{
+			MapStatusUpdate status = MapStatusUpdateFactory.newLatLngZoom(new LatLng(latitude,
+					longitude), 14);
+			baiduMap.setMapStatus(status); //设置上次指定的位置
+			setMapOverlay(new LatLng(latitude, longitude));
+		}
+		else
+		{
+			//获取位置配置第一步，设置监听器
+			locationClient = new LocationClient(getApplicationContext());
+			locationClient.registerLocationListener(myListener); //绑定监听器
+
+			//第二步，初始化定位配置
+			initLocation();
+
+			//第三步：开启定位
+			locationClient.start();
+		}
+
+		initClickEvent();
+
+		mapView.showScaleControl(false); //不显示默认比例尺控件
+		//普通地图的缩放等级是4-21
+		mapView.showZoomControls(false); //不显示默认缩放控件
 	}
 
 	//定位设置
@@ -206,7 +291,7 @@ public class BDMSettingActivity extends AppCompatActivity
 	}
 
 	//显示位置监听接口
-	public class MyLocationListener extends BDAbstractLocationListener
+	private class MyLocationListener extends BDAbstractLocationListener
 	{
 		//此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
 
@@ -237,7 +322,7 @@ public class BDMSettingActivity extends AppCompatActivity
 		baiduMap.clear();
 
 		BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable
-				.ic_marker_32dp_red);
+				.ic_marker_48dp_red);
 		OverlayOptions options = new MarkerOptions().position(temp).icon(bitmapDescriptor);
 		baiduMap.addOverlay(options);
 	}

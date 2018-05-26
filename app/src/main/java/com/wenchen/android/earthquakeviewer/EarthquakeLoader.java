@@ -4,14 +4,14 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by WenChen on 2018/3/24.
  */
 
 //继承自异步线程任务的 Loader 可以使下载网络数据在后台下，不在主线程中，避免程序未响应
-public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>>
+public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Earthquake>>
 {
 	//查询地震信息的url
 	private String url;
@@ -33,12 +33,12 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>>
 	}
 
 	@Override
-	public List<Earthquake> loadInBackground()
+	public ArrayList<Earthquake> loadInBackground()
 	{
 		//后台下载数据
 		if(url == null)
 			return null;
-		List<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(url);
+		ArrayList<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(url);
 
 		return earthquakes;
 	}

@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by WenChen on 2018/3/22.
@@ -35,7 +35,7 @@ public class EarthquakesListAdapter extends ArrayAdapter<Earthquake>
 	/**用于分离位置*/
 	private static final String PLACE_SEPARATOR = " of ";
 
-	public EarthquakesListAdapter(Context context, List<Earthquake> earthquakes)
+	public EarthquakesListAdapter(Context context, ArrayList<Earthquake> earthquakes)
 	{
 		super(context, 0, earthquakes);
 	}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/list_item_vertical_margin">
+
+    <!-- 原计划用于填充message_list的item布局(方案一)，但结果有点出入，直接使用其布局地震信息(方案二) -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="震级："
+        android:textSize="@dimen/message_text_size"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/radio_button_padding"/>
+    <TextView
+        android:id="@+id/magnitude_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/message_text_size"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="@dimen/radio_button_padding"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="时间："
+        android:textSize="@dimen/message_text_size"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/radio_button_padding"/>
+    <TextView
+        android:id="@+id/date_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/message_text_size"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="@dimen/radio_button_padding"/>
+    <TextView
+        android:id="@+id/time_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/message_text_size"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/radio_button_padding"/>
+
+</LinearLayout>

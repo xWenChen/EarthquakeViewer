@@ -20,7 +20,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 创建查询条件 URL 的静态工具类，不能被更改
@@ -133,12 +132,12 @@ public final class QueryUtils
 	}
 
 	//根据 makeHttpRequest 函数得到的数据解析出所有 JSON 地震对象的信息
-	private static List<Earthquake> extractFeatureFromJson(String earthquakeJson)
+	private static ArrayList<Earthquake> extractFeatureFromJson(String earthquakeJson)
 	{
 		//可用 TextUtils.isEmpty(earthquakeJson) 代替
 		if(earthquakeJson == null || earthquakeJson == "")
 			return null;
-		List<Earthquake> earthquakes = new ArrayList<>();
+		ArrayList<Earthquake> earthquakes = new ArrayList<>();
 
 		try
 		{
@@ -165,8 +164,17 @@ public final class QueryUtils
 				long time = properties.getLong("time");
 				String url = properties.getString("url");
 
+				//获得经纬度的路径：coordinates是目标节点
+				JSONObject geometry = currentEarthquake.getJSONObject("geometry");
+				JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+				//获取经纬度
+				double latitude = coordinates.getDouble(1);
+				double longitude = coordinates.getDouble(0);
+
 				//根据相关信息构造地震对象，并加入显示列表中
-				Earthquake earthquake = new Earthquake(magnitude, place, time, url);
+				Earthquake earthquake = new Earthquake(magnitude, place, latitude, longitude,
+						time, url);
 				earthquakes.add(earthquake);
 			}
 		}
@@ -178,7 +186,7 @@ public final class QueryUtils
 	}
 
 	//最终调用是这个方法，根据相应 url 构造出地震信息的列表
-	public static List<Earthquake> fetchEarthquakeData(String earthquakeUrl)
+	public static ArrayList<Earthquake> fetchEarthquakeData(String earthquakeUrl)
 	{
 		URL url = createUrl(earthquakeUrl);
 

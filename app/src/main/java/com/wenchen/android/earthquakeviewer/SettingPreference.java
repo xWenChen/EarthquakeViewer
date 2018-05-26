@@ -18,7 +18,6 @@ public class SettingPreference
 	private String limit;
 
 	SharedPreferences settings;
-	LocationManager manager;
 
 	public SettingPreference(SharedPreferences settings)
 	{
