@@ -4,6 +4,10 @@ package com.wenchen.android.earthquakeviewer;
  * Created by WenChen on 2018/5/22.
  */
 
+/**
+ * 该类未用到
+ * */
+
 //使用快速排序的类
 
 //排序方法全部设为私有的，用于无法调用

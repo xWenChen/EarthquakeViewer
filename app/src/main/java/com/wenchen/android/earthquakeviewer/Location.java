@@ -12,6 +12,10 @@ import java.util.ArrayList;
  * 在地图显示(BDMActivity)中用于将地区分类的类
  * */
 
+/**
+ * 该类未用到
+ * */
+
 public class Location
 {
 	//两个属性：一个坐标点(经度，纬度)，一个记录地点相同的标记列表(即地震在原地图中地震列表的位置)

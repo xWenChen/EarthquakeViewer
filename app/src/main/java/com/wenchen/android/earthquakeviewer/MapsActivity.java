@@ -14,6 +14,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * 显示Google地图的类
+ * */
+
+/**
+ * 该类未用到
+ * */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 {
 
