@@ -15,4 +15,4 @@
  
 扫描二维码下载软件
 注意：如果软件有异常，请手动分配一下权限，或者重启软件三次。写的动态权限分配代码有点问题。
-![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
+![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/download_app.png)
