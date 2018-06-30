@@ -12,3 +12,5 @@
 6、在Google地图无法使用的情况下，我使用了百度地图的API，也实现了一部分地图显示的功能
  
 ![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
+
+![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
