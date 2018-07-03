@@ -1,5 +1,5 @@
 # EarthquakeViewer
-1、运行系统：Android 版本：1.0
+1、运行系统：Android
 
 2、该程序可以显示世界范围内已经发生过的地震，用户可以设置地震信息的限制条件。
 
@@ -14,5 +14,5 @@
 ![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/app/src/main/res/drawable-xxxhdpi/ic_donut_large_green_700_48dp.png)
  
 扫描二维码下载软件
-注意：如果软件有异常，请手动分配一下权限，或者重启软件三次。写的动态权限分配代码有点问题。
+注意：如果软件有异常，请手动分配一下权限，或者重启软件三次。
 ![测试加图片功能](https://github.com/xWenChen/EarthquakeViewer/blob/master/download_app.png)
