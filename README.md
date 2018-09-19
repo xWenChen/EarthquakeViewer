@@ -25,8 +25,8 @@
 
 ![更多设置信息](https://github.com/xWenChen/EarthquakeViewer/blob/master/setting_more.jpg)
  
-设置里面有个特殊地方就是用户可以进行地理位置的设置，使用的是百度地图的API。但是默认情况下设置不会限制地理位置
-
+设置里面有个特殊地方就是用户可以进行地理位置的设置，使用的是百度地图的API。但是默认情况下设置不会限制地理位置。底部中间的按钮可以取消地理位置的限制
+ 
 ![设置地图](https://github.com/xWenChen/EarthquakeViewer/blob/master/setting_map.jpg)
  
 在主界面，用户点击设置按钮旁边的地图按钮，可以在地图中显示地震地点，每个地震地点会打上一个标记
@@ -35,4 +35,16 @@
  
 地图可以放大缩小，点击地图上的标记会显示当前地点地震的等级，用按钮显示，点击按钮会出现更加详细的信息
 
-![地震等级](https://github.com/xWenChen/EarthquakeViewer/blob/master/map_info.jpg)
+![地震等级](https://github.com/xWenChen/EarthquakeViewer/blob/master/click_mark.jpg)
+ 
+![更多信息](https://github.com/xWenChen/EarthquakeViewer/blob/master/map_info.jpg)
+ 
+点击出现的文本，可以选择浏览器并在原网址查看更详细的信息
+
+![选择浏览器](https://github.com/xWenChen/EarthquakeViewer/blob/master/choose_browser.jpg)
+
+![浏览器查看](https://github.com/xWenChen/EarthquakeViewer/blob/master/browser.jpg)
+ 
+当点击底部back键时，会弹出退出程序的提醒，用户可以选择离开与否。因此，用户如果想要返回上个界面，只有点击左上角的箭头
+ 
+![离开方式](https://github.com/xWenChen/EarthquakeViewer/blob/master/exit_style.jpg)
