@@ -14,4 +14,11 @@
 程序演示：
  
 进入程序会从网上下载数据，若未联网可以提醒
-![主页面](https://github.com/xWenChen/EarthquakeViewer/blob/master/主页面.jpg)
+![主页面](https://github.com/xWenChen/EarthquakeViewer/blob/master/main_ui.jpg)
+
+点击右上设置按钮，可以进行地震参数的设置，用户可以选择保存修改或者放弃修改
+![设置界面](https://github.com/xWenChen/EarthquakeViewer/blob/master/setting.jpg)
+ 
+点击下拉图标，可以展示此设置下的URL
+![更多设置信息](https://github.com/xWenChen/EarthquakeViewer/blob/master/setting_more.jpg)
+
